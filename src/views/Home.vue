@@ -8,6 +8,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
+import axios from "axios";
 
 export default {
   name: "Home",
@@ -16,6 +17,7 @@ export default {
   },
   data: function () {
     return {
+      baseUrl: process.env.VUE_APP_BASE_URL,
       countries: [],
     };
   },
@@ -23,7 +25,14 @@ export default {
     this.getAllcountries();
   },
   methods: {
-    async getAllcountries() {},
+    async getAllcountries() {
+      try {
+        const response = await axios.get(this.baseUrl);
+        console.log("aqui misera", response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>
