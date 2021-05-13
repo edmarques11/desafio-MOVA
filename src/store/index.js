@@ -10,8 +10,8 @@ export default new Vuex.Store({
     typeSearch: "",
     countries: [],
     pagination: {
-      init: 1,
-      final: undefined,
+      initLocal: 0,
+      initPagination: 0,
     },
   },
   mutations: {

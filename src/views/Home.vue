@@ -1,38 +1,27 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+    <ViewFlags />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-import axios from "axios";
+import { mapActions } from "vuex";
+import ViewFlags from "../components/ViewFlags";
 
 export default {
   name: "Home",
   components: {
-    // HelloWorld,
+    ViewFlags,
   },
   data: function () {
-    return {
-      baseUrl: process.env.VUE_APP_BASE_URL,
-      countries: [],
-    };
+    return {};
   },
   mounted() {
-    this.getAllcountries();
+    this.get_countries("all");
   },
+  computed: {},
   methods: {
-    async getAllcountries() {
-      try {
-        const response = await axios.get(this.baseUrl);
-        console.log("aqui misera", response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    ...mapActions(["get_countries"]),
   },
 };
 </script>
