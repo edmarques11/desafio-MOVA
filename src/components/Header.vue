@@ -5,7 +5,8 @@
         <img src="../assets/logo_principal.png" alt="home" />
       </router-link>
       <router-link to="/">
-        <img src="../assets/return_button.png" alt="back" />
+        <img src="@/assets/return_button.png" class="big" alt="back" />
+        <img src="@/assets/keyboard_return.png" class="small" alt="back" />
       </router-link>
     </div>
   </header>
@@ -14,6 +15,12 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      // width: window.visualViewport.width,
+    };
+  },
+  methods: {},
 };
 </script>
 
@@ -28,6 +35,19 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.small {
+  display: none;
+}
+
+@media screen and (max-width: 360px) {
+  .big {
+    display: none;
+  }
+  .small {
+    display: block;
+  }
 }
 
 #header > div {
