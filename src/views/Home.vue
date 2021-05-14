@@ -21,10 +21,11 @@ export default {
   },
   mounted() {
     this.get_countries("all");
+    this.get_allCountries();
   },
   computed: {},
   methods: {
-    ...mapActions(["get_countries"]),
+    ...mapActions(["get_countries", "get_allCountries"]),
   },
 };
 </script>

@@ -31,14 +31,17 @@
               v-for="(option, index) in secondaryOptions"
               :key="index"
               :value="option"
-              >{{ option }}</b-form-select-option
+              >{{ computedOption(option) }}</b-form-select-option
             >
           </b-form-select>
         </div>
       </b-col>
       <b-col>
         <div v-show="selected" class="mb-3">
-          <b-button class="pesquisar" :disabled="!selectedSecondary"
+          <b-button
+            @click="get_countries()"
+            class="pesquisar"
+            :disabled="!selectedSecondary"
             >Pesquisar</b-button
           >
         </div>
@@ -56,13 +59,13 @@ export default {
     return {
       selected: null,
       selectedSecondary: null,
-      types: [
-        { region: { endpoint: "region" } },
-        { capital: { endpoint: "capital" } },
-        { languages: { endpoint: "lang" } },
-        { name: { endpoint: "name" } },
-        { callingcode: { endpoint: "callingcode" } },
-      ],
+      types: {
+        region: { endpoint: "region" },
+        capital: { endpoint: "capital" },
+        languages: { endpoint: "lang" },
+        name: { endpoint: "name" },
+        callingcode: { endpoint: "callingcode" },
+      },
       options: [
         { value: null, text: "Escolha uma opção" },
         { value: "region", text: "Região" },
@@ -76,20 +79,33 @@ export default {
   },
   watch: {
     selected: function () {
-      this.$store.commit("change_typeSearch", this.selected);
+      this.$store.commit(
+        "change_typeSearch",
+        this.types[this.selected].endpoint
+      );
       this.secondaryOptions = [];
       this.secondaryOptions = this.getTypesSearch(this.selected);
     },
+    selectedSecondary: function () {
+      const selectedSecondary = this.selectedSecondary.iso639_2
+        ? this.selectedSecondary.iso639_1
+        : this.selectedSecondary;
+      this.$store.commit("change_countryFilter", selectedSecondary);
+    },
   },
   computed: {
-    ...mapState(["countries", "typeSearch", "typeFilter"]),
+    ...mapState(["allCountries", "countries", "typeSearch", "countryFilter"]),
   },
   methods: {
     ...mapActions(["get_countries"]),
+    computedOption: function (option) {
+      if (option.name) return option.name;
+      return option;
+    },
     getTypesSearch(option) {
       if (!option) return;
       const options = [];
-      this.countries.filter((country) => {
+      this.allCountries.filter((country) => {
         if (
           options.indexOf(country[option]) < 0 &&
           country[option] !== "" &&
@@ -100,11 +116,12 @@ export default {
 
         if (option === "languages") {
           for (const index in country[option]) {
-            if (
-              country[option][index].name &&
-              options.indexOf(country[option][index].name) < 0
-            )
-              options.push(country[option][index].name);
+            const elementAlreadExists = options.find(
+              (element) => element.name === country[option][index].name
+            );
+
+            if (country[option][index].name && !elementAlreadExists)
+              options.push(country[option][index]);
           }
         }
 

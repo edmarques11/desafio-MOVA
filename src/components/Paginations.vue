@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     nextPage() {
-      const limitPages = this.countries.length / 3 - 1;
+      const limitPages = Math.floor(this.countries.length / 3) - 1;
       if (limitPages < this.currentPage + 5) {
         return (this.currentPage = limitPages);
       }

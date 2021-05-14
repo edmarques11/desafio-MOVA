@@ -7,8 +7,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     typeSearch: "",
-    typeFilter: "",
+    countryFilter: "",
     countries: [],
+    allCountries: [],
     pagination: {
       initLocal: 0,
       initPagination: 0,
@@ -18,11 +19,14 @@ export default new Vuex.Store({
     change_typeSearch(state, payload) {
       state.typeSearch = payload;
     },
-    change_typeFilter(state, payload) {
-      state.typeFilter = payload;
+    change_countryFilter(state, payload) {
+      state.countryFilter = payload;
     },
     change_countries(state, payload) {
       state.countries = payload;
+    },
+    change_allCountries(state, payload) {
+      state.allCountries = payload;
     },
     change_pagination(state, payload) {
       state.pagination = payload;
@@ -31,12 +35,12 @@ export default new Vuex.Store({
   actions: {
     async get_countries(context, entrypoint) {
       try {
-        const { typeFilter, typeSearch } = context.state;
+        const { countryFilter, typeSearch } = context.state;
         const baseUrl = process.env.VUE_APP_BASE_URL;
 
         const url = entrypoint
           ? baseUrl + `/${entrypoint}`
-          : baseUrl + `/${typeSearch}/${typeFilter}`;
+          : baseUrl + `/${typeSearch}/${countryFilter}`;
 
         const { data } = await axios.get(url);
 
@@ -44,6 +48,12 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error);
       }
+    },
+
+    async get_allCountries(context) {
+      const baseUrl = process.env.VUE_APP_BASE_URL;
+      const { data } = await axios.get(baseUrl + "/all");
+      context.commit("change_allCountries", data);
     },
   },
   modules: {},
