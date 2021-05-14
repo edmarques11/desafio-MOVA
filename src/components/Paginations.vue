@@ -1,12 +1,14 @@
 <template>
   <div class="pagination">
-    <div class="back">
+    <div class="back" @click="prevPage()">
       <img src="../assets/Vector-back.svg" alt="back" />
     </div>
     <div v-for="(page, index) in pages" :key="index">
-      <div @click="changeCurrentPage(page)" class="page">{{ page }}</div>
+      <div @click="changeCurrentPage(page)" :id="`page${page}`" class="page">
+        {{ page }}
+      </div>
     </div>
-    <div class="go">
+    <div class="go" @click="nextPage()">
       <img src="../assets/Vector-go.svg" alt="go" />
     </div>
   </div>
@@ -23,6 +25,10 @@ export default {
       pages: [1, 2, 3, 4, 5],
     };
   },
+  mounted() {
+    const pageSelected = document.getElementById(`page${this.currentPage}`);
+    pageSelected.className = "pageSelected";
+  },
   computed: {
     ...mapState(["countries", "pagination"]),
   },
@@ -36,6 +42,19 @@ export default {
     },
   },
   methods: {
+    nextPage() {
+      const limitPages = this.countries.length / 3 - 1;
+      if (limitPages < this.currentPage + 5) {
+        return (this.currentPage = limitPages);
+      }
+      this.currentPage += 5;
+    },
+    prevPage() {
+      if (this.currentPage - 1 < 1) {
+        return (this.currentPage = 1);
+      }
+      this.currentPage -= 1;
+    },
     changeCurrentPage(value) {
       this.currentPage = value;
     },
@@ -81,6 +100,20 @@ export default {
   background: #fff;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
   border-radius: 2px;
+  cursor: pointer;
+}
+
+.pageSelected {
+  width: 34px;
+  height: 34px;
+  margin: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  background: #6d2080;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
 }
 
 .back,
@@ -95,6 +128,7 @@ export default {
   background: #fff;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .back > img,

@@ -6,8 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    typeFilter: "",
     typeSearch: "",
+    typeFilter: "",
     countries: [],
     pagination: {
       initLocal: 0,
@@ -15,11 +15,11 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    change_typeFilter(state, payload) {
-      state.typeFilter = payload;
-    },
     change_typeSearch(state, payload) {
       state.typeSearch = payload;
+    },
+    change_typeFilter(state, payload) {
+      state.typeFilter = payload;
     },
     change_countries(state, payload) {
       state.countries = payload;
@@ -36,7 +36,7 @@ export default new Vuex.Store({
 
         const url = entrypoint
           ? baseUrl + `/${entrypoint}`
-          : baseUrl + `/${typeFilter}/${typeSearch}`;
+          : baseUrl + `/${typeSearch}/${typeFilter}`;
 
         const { data } = await axios.get(url);
 

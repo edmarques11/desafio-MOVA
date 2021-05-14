@@ -4,7 +4,7 @@
       <b-col
         v-for="(country, index) in currentCountries"
         :key="index"
-        class="p-0"
+        class="p-0 mb-4"
       >
         <b-img class="flag-country" :src="country.flag"></b-img>
       </b-col>
