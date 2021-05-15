@@ -10,6 +10,7 @@ export default new Vuex.Store({
     countryFilter: "",
     countries: [],
     allCountries: [],
+    viewCountry: {},
     pagination: {
       initLocal: 0,
       initPagination: 0,
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     change_allCountries(state, payload) {
       state.allCountries = payload;
+    },
+    change_viewCountry(state, payload) {
+      state.viewCountry = payload;
     },
     change_pagination(state, payload) {
       state.pagination = payload;
