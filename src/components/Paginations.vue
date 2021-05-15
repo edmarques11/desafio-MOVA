@@ -29,9 +29,11 @@ export default {
     const pageSelected = document.getElementById(`page${this.currentPage}`);
     pageSelected.className = "pageSelected";
   },
+
   computed: {
     ...mapState(["countries", "pagination"]),
   },
+
   watch: {
     currentPage: function () {
       this.$store.commit("change_pagination", {
@@ -41,6 +43,7 @@ export default {
       this.populatePages();
     },
   },
+
   methods: {
     nextPage() {
       const limitPages = Math.floor(this.countries.length / 3) - 1;

@@ -41,7 +41,6 @@ export default {
         borders.push(currentCountry[0]);
       }
       this.$store.commit("change_countries", borders);
-      console.log(borders, country.borders);
       this.$store.commit("change_viewCountry", country);
       this.$router.push({
         name: "Country",
