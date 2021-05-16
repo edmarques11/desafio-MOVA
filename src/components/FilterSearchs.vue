@@ -99,7 +99,7 @@ export default {
   methods: {
     ...mapActions(["get_countries"]),
     computedOption: function (option) {
-      if (option.name) return option.name;
+      if (option && option.name) return option.name;
       return option;
     },
     getTypesSearch(option) {
