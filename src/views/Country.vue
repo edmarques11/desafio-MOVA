@@ -54,9 +54,13 @@ export default {
   methods: {
     ...mapActions(["get_countries"]),
     goRegion(region) {
+      this.$store.commit("change_filter", {
+        typeFilter: "region",
+        typeSearch: region,
+      });
       const endPoint = `region/${region}`;
       this.get_countries(endPoint);
-      this.$router.push({ name: "Region", params: { regionName: region } });
+      this.$router.push({ name: "Home" });
     },
   },
 };

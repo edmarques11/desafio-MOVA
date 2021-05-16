@@ -15,12 +15,6 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "Country" */ "../views/Country.vue"),
   },
-  {
-    path: "/region/:regionName",
-    name: "Region",
-    component: () =>
-      import(/* webpackChunkName: "Region" */ "../views/Region.vue"),
-  },
 ];
 
 const router = new VueRouter({

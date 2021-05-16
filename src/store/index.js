@@ -9,6 +9,10 @@ export default new Vuex.Store({
     typeSearch: "",
     countryFilter: "",
     countries: [],
+    filter: {
+      typeFilter: null,
+      typeSearch: null,
+    },
     allCountries: [],
     viewCountry: {},
     pagination: {
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     },
     change_countries(state, payload) {
       state.countries = payload;
+    },
+    change_filter(state, payload) {
+      state.filter = payload;
     },
     change_allCountries(state, payload) {
       state.allCountries = payload;

@@ -57,8 +57,8 @@ export default {
   name: "FilterSearchs",
   data() {
     return {
-      selected: null,
-      selectedSecondary: null,
+      selected: this.$store.state.filter.typeFilter,
+      selectedSecondary: this.$store.state.filter.typeSearch,
       types: {
         region: { endpoint: "region" },
         capital: { endpoint: "capital" },
@@ -74,7 +74,7 @@ export default {
         { value: "name", text: "País" },
         { value: "callingcode", text: "Código de ligação" },
       ],
-      secondaryOptions: [],
+      secondaryOptions: [this.$store.state.filter.typeSearch],
     };
   },
   watch: {
@@ -94,7 +94,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["allCountries", "countries", "typeSearch", "countryFilter"]),
+    ...mapState(["allCountries", "countries", "filter"]),
   },
   methods: {
     ...mapActions(["get_countries"]),
