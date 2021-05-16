@@ -26,8 +26,8 @@ export default {
     ...mapState(["allCountries", "countries", "pagination"]),
     currentCountries: function () {
       return this.countries.slice(
-        this.pagination.initLocal,
-        this.pagination.initLocal + 3
+        this.pagination.initLocal - 1,
+        this.pagination.initLocal + 2
       );
     },
   },

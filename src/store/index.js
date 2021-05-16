@@ -12,8 +12,8 @@ export default new Vuex.Store({
     allCountries: [],
     viewCountry: {},
     pagination: {
-      initLocal: 0,
-      initPagination: 0,
+      initLocal: 1,
+      initPagination: 1,
     },
   },
   mutations: {

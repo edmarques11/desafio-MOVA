@@ -1,43 +1,46 @@
 <template>
   <div class="pagination">
-    <div class="back" @click="prevPage()">
+    <div class="back" v-if="countries.length > 0" @click="prevPage()">
       <img src="../assets/Vector-back.svg" alt="back" />
     </div>
     <div v-for="(page, index) in pages" :key="index">
-      <div @click="changeCurrentPage(page)" :id="`page${page}`" class="page">
+      <div
+        @click="changeCurrentPage(page)"
+        :id="`page${page}`"
+        :class="selectedPage(page)"
+      >
         {{ page }}
       </div>
     </div>
-    <div class="go" @click="nextPage()">
+
+    <div class="go" v-if="countries.length > 0" @click="nextPage()">
       <img src="../assets/Vector-go.svg" alt="go" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Paginations",
   data() {
     return {
       currentPage: 1,
-      pages: [1, 2, 3, 4, 5],
     };
-  },
-  mounted() {
-    const pageSelected = document.getElementById(`page${this.currentPage}`);
-    pageSelected.className = "pageSelected";
   },
 
   computed: {
     ...mapState(["countries", "pagination"]),
+    pages: function () {
+      return this.populatePages();
+    },
   },
 
   watch: {
     currentPage: function () {
       this.$store.commit("change_pagination", {
-        initLocal: this.currentPage !== 1 ? this.currentPage * 3 : 0,
+        initLocal: this.currentPage * 3 - 2,
         initPagination: this.currentPage,
       });
       this.populatePages();
@@ -45,36 +48,44 @@ export default {
   },
 
   methods: {
+    ...mapActions(["calc_limitPages"]),
+    selectedPage: function (page) {
+      if (this.currentPage === page) return "pageSelected";
+      return "page";
+    },
+
     nextPage() {
-      const limitPages = Math.floor(this.countries.length / 3) - 1;
-      if (limitPages < this.currentPage + 5) {
-        return (this.currentPage = limitPages);
+      if (this.currentPage + 5 > Math.ceil(this.countries.length / 3)) {
+        return (this.currentPage = Math.ceil(this.countries.length / 3));
+      } else {
+        this.currentPage += 1;
       }
-      this.currentPage += 5;
     },
     prevPage() {
       if (this.currentPage - 1 < 1) {
         return (this.currentPage = 1);
+      } else {
+        this.currentPage -= 1;
       }
-      this.currentPage -= 1;
     },
     changeCurrentPage(value) {
       this.currentPage = value;
     },
     populatePages() {
-      this.pages = [];
+      let pages = [];
       let count = 0;
       for (
         let index = this.currentPage;
-        index < this.countries.length / 3;
+        index < Math.ceil(this.countries.length / 3) + 1;
         index++
       ) {
         count++;
 
-        this.pages.push(index);
+        pages.push(index);
 
         if (count === 5) break;
       }
+      return pages;
     },
   },
 };
