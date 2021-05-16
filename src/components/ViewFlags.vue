@@ -42,6 +42,10 @@ export default {
       }
       this.$store.commit("change_countries", borders);
       this.$store.commit("change_viewCountry", country);
+      this.$store.commit("change_pagination", {
+        initLocal: 1,
+        initPagination: 1,
+      });
       this.$router.push({
         name: "Country",
         params: { countryName: country.name },
